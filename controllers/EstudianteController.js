@@ -1,0 +1,34 @@
+var mongoose = require('mongoose');
+var Estudiante = require("../models/Estudiante");
+
+var estudianteController = {};
+
+estudianteController.list = function(req, res){
+    
+    Estudiante.find({}).exec(function(err, estudiantes){
+        if( err ){ console.log('Error: ', err); return; }
+        console.log("Estudiante index");
+        res.render('../views/estudiante/index', {estudiantes: estudiantes,titulo:'INDEX'} );
+        
+    });
+    
+};
+
+estudianteController.create = function(req, res){
+    res.render('../views/estudiante/create');
+};
+
+estudianteController.save = function(req, res){
+    var estudiante = new Estudiante( req.body );
+    
+    estudiante.save(function(err){
+        if( err ){ console.log('Error: ', err); return; }
+        
+        console.log("Successfully created a estudiante. :)");
+        res.redirect("/estudiantes");
+        //res.redirect("/estudiantes");
+    });
+};
+
+
+module.exports = estudianteController;
